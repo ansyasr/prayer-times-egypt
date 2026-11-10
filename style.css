@@ -263,7 +263,6 @@ select:disabled { opacity: .55; }
   width: 100%;
   text-align: center;
   padding: 22px 16px;
-  border-top: 1px solid rgba(43, 134, 200, .15);
   background: rgba(255, 255, 255, .76);
   font-size: .9rem;
   font-weight: 600;
