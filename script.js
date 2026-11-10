@@ -23,6 +23,239 @@
     a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
+  const COMMON_ADHKAR = [
+    {
+      id: "ayat-kursi",
+      title: "آية الكرسي",
+      repeat: 1,
+      text: "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ.",
+      virtue: "آية الكرسي أعظم آية في كتاب الله. أُدرجت هنا للتلاوة، دون تخصيص فضل صباحي أو مسائي غير ثابت في هذا المصدر.",
+      source: "سورة البقرة، الآية ٢٥٥؛ صحيح مسلم، رقم ٨١٠."
+    },
+    {
+      id: "niama",
+      title: "دعاء شكر النعمة",
+      repeat: 1,
+      text: "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.",
+      eveningText: "اللَّهُمَّ مَا أَمْسَى بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.",
+      virtue: "من قالها حين يصبح فقد أدّى شكر يومه، ومن قالها حين يمسي فقد أدّى شكر ليلته.",
+      source: "سنن أبي داود، رقم ٥٠٧٣."
+    },
+    {
+      id: "fitrah",
+      title: "دعاء الفطرة والتوحيد",
+      repeat: 1,
+      text: "أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ، وَكَلِمَةِ الْإِخْلَاصِ، وَدِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ، وَمِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ.",
+      eveningText: "أَمْسَيْنَا عَلَى فِطْرَةِ الْإِسْلَامِ، وَكَلِمَةِ الْإِخْلَاصِ، وَدِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ، وَمِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ.",
+      virtue: "تجديد للإقرار بالتوحيد واتباع ملة إبراهيم ودين النبي ﷺ.",
+      source: "مسند أحمد، رقم ١٥٣٦٧؛ وحسّنه عدد من أهل العلم."
+    },
+    {
+      id: "witness",
+      title: "الشهادة لله بالتوحيد",
+      repeat: 4,
+      text: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ، وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ، وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.",
+      eveningText: "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ، وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ، وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.",
+      virtue: "ورد أن من قالها أربع مرات أعتقه الله من النار.",
+      source: "سنن أبي داود، رقم ٥٠٦٩."
+    },
+    {
+      id: "hasbiyallah",
+      title: "حسبي الله ونعم الوكيل",
+      repeat: 7,
+      text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ، وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.",
+      virtue: "ورد قولها سبع مرات صباحًا ومساءً في أثرٍ اختلف أهل العلم في ثبوته مرفوعًا.",
+      source: "سنن أبي داود، رقم ٥٠٨١؛ مع التنبيه إلى الخلاف في صحة رفعه."
+    },
+    {
+      id: "subhanallah-100",
+      title: "التسبيح مئة مرة",
+      repeat: 100,
+      text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ.",
+      virtue: "من قالها مئة مرة حين يصبح وحين يمسي لم يأت أحد يوم القيامة بأفضل مما جاء به، إلا من قال مثل قوله أو زاد.",
+      source: "صحيح مسلم، رقم ٢٦٩٢."
+    },
+    {
+      id: "tahlil-100",
+      title: "كلمة التوحيد",
+      repeat: 100,
+      text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",
+      virtue: "من قالها مئة مرة في يومه كان له أجر عظيم، وكانت له حرزًا من الشيطان حتى يمسي.",
+      source: "صحيح البخاري، رقم ٣٢٩٣؛ صحيح مسلم، رقم ٢٦٩١."
+    },
+    {
+      id: "tahlil-10",
+      title: "كلمة التوحيد عشر مرات",
+      repeat: 10,
+      text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",
+      virtue: "ورد فيمن قالها عشر مرات صباحًا أو مساءً فضل عظيم وأجر وحرز من الشيطان.",
+      source: "سنن أبي داود، رقم ٥٠٧٧؛ وجامع الترمذي، رقم ٣٤٧٤."
+    },
+  ];
+
+  const ADHKAR = {
+    morning: [
+      {
+        id: "opening",
+        title: "ذكر الصباح الجامع",
+        repeat: 1,
+        text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ. رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.",
+        virtue: "دعاء جامع بحمد الله وتوحيده، وسؤاله خير اليوم والاستعاذة من شره.",
+        source: "صحيح مسلم، رقم ٢٧٢٣."
+      },
+      {
+        id: "bika",
+        title: "اللهم بك أصبحنا",
+        repeat: 1,
+        text: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ.",
+        virtue: "يجدّد المسلم توكّله على الله وافتقاره إليه في يومه.",
+        source: "سنن أبي داود، رقم ٥٠٦٨؛ وجامع الترمذي، رقم ٣٣٩١ (حسن صحيح)."
+      },
+      {
+        id: "muawwidhat",
+        title: "سور الإخلاص والفلق والناس",
+        repeat: 3,
+        repeatNote: "اقرأ الإخلاص والفلق والناس جميعًا في كل مرة، وكرّر المجموعة ثلاث مرات.",
+        text: "سورة الإخلاص:\nقُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ.\n\nسورة الفلق:\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ.\n\nسورة الناس:\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ.",
+        virtue: "تُقرأ السور الثلاث كل واحدة ثلاث مرات، وجاء أنها تكفي قارئها من كل شيء.",
+        source: "سنن أبي داود، رقم ٥٠٨٢؛ وجامع الترمذي، رقم ٣٥٧٥."
+      },
+      {
+        id: "sayyid-istighfar",
+        title: "سيد الاستغفار",
+        repeat: 1,
+        text: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي، فَاغْفِرْ لِي؛ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.",
+        virtue: "من قاله موقنًا به في النهار ثم مات قبل أن يمسي دخل الجنة.",
+        source: "صحيح البخاري، رقم ٦٣٠٦."
+      },
+      {
+        id: "rida",
+        title: "رضيت بالله ربًّا",
+        repeat: 3,
+        text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.",
+        virtue: "ورد أن من قالها حين يصبح ثلاثًا كان حقًا على الله أن يرضيه يوم القيامة.",
+        source: "سنن أبي داود، رقم ٥٠٧٢؛ وجامع الترمذي، رقم ٣٣٨٩."
+      },
+      {
+        id: "bismillah",
+        title: "بسم الله الذي لا يضر",
+        repeat: 3,
+        text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.",
+        virtue: "ورد أن من قالها ثلاثًا لم تصبه فجأة بلاء حتى يمسي.",
+        source: "سنن أبي داود، رقم ٥٠٨٨؛ وجامع الترمذي، رقم ٣٣٨٨."
+      },
+      {
+        id: "afiyah",
+        title: "سؤال العفو والعافية",
+        repeat: 1,
+        text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي، وَعَنْ يَمِينِي وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي.",
+        virtue: "دعاء جامع بالعفو والعافية والحفظ، وكان النبي ﷺ يقوله صباحًا ومساءً.",
+        source: "سنن أبي داود، رقم ٥٠٧٤."
+      },
+      {
+        id: "fatr",
+        title: "دعاء فاطر السماوات والأرض",
+        repeat: 1,
+        text: "اللَّهُمَّ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَشَرِّ الشَّيْطَانِ وَشِرْكِهِ.",
+        virtue: "تعوّذ بالله من شر النفس والشيطان، وأرشد النبي ﷺ أبا بكر أن يقول هذا الدعاء صباحًا ومساءً.",
+        source: "سنن أبي داود، رقم ٥٠٦٧؛ وجامع الترمذي، رقم ٣٣٩٢."
+      },
+      ...COMMON_ADHKAR,
+      {
+        id: "morning-rizq",
+        title: "سؤال العلم والرزق والعمل الصالح",
+        repeat: 1,
+        text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا.",
+        virtue: "دعاء نبوي كان يُقال بعد صلاة الصبح.",
+        source: "سنن ابن ماجه، رقم ٩٢٥."
+      },
+      {
+        id: "morning-subhan",
+        title: "تسبيح بعدد الخلق",
+        repeat: 3,
+        text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.",
+        virtue: "أخبر النبي ﷺ أن هذه الكلمات أربع تُقال ثلاث مرات، وهي أحب إليه مما طلع عليه الشمس.",
+        source: "صحيح مسلم، رقم ٢٧٢٦."
+      }
+    ],
+    evening: [
+      {
+        id: "opening",
+        title: "ذكر المساء الجامع",
+        repeat: 1,
+        text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا. رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.",
+        virtue: "دعاء جامع بحمد الله وتوحيده، وسؤاله خير الليلة والاستعاذة من شرها.",
+        source: "صحيح مسلم، رقم ٢٧٢٣."
+      },
+      {
+        id: "bika",
+        title: "اللهم بك أمسينا",
+        repeat: 1,
+        text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ.",
+        virtue: "يجدّد المسلم توكّله على الله وافتقاره إليه في ليلته.",
+        source: "سنن أبي داود، رقم ٥٠٦٨؛ وجامع الترمذي، رقم ٣٣٩١ (حسن صحيح)."
+      },
+      {
+        id: "muawwidhat",
+        title: "سور الإخلاص والفلق والناس",
+        repeat: 3,
+        repeatNote: "اقرأ الإخلاص والفلق والناس جميعًا في كل مرة، وكرّر المجموعة ثلاث مرات.",
+        text: "سورة الإخلاص:\nقُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ.\n\nسورة الفلق:\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ.\n\nسورة الناس:\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ.",
+        virtue: "تُقرأ السور الثلاث كل واحدة ثلاث مرات، وجاء أنها تكفي قارئها من كل شيء.",
+        source: "سنن أبي داود، رقم ٥٠٨٢؛ وجامع الترمذي، رقم ٣٥٧٥."
+      },
+      {
+        id: "sayyid-istighfar",
+        title: "سيد الاستغفار",
+        repeat: 1,
+        text: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي، فَاغْفِرْ لِي؛ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.",
+        virtue: "من قاله موقنًا به في الليل ثم مات قبل أن يصبح دخل الجنة.",
+        source: "صحيح البخاري، رقم ٦٣٠٦."
+      },
+      {
+        id: "rida",
+        title: "رضيت بالله ربًّا",
+        repeat: 3,
+        text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.",
+        virtue: "ورد أن من قالها حين يمسي ثلاثًا كان حقًا على الله أن يرضيه يوم القيامة.",
+        source: "سنن أبي داود، رقم ٥٠٧٢؛ وجامع الترمذي، رقم ٣٣٨٩."
+      },
+      {
+        id: "bismillah",
+        title: "بسم الله الذي لا يضر",
+        repeat: 3,
+        text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.",
+        virtue: "ورد أن من قالها ثلاثًا لم تصبه فجأة بلاء حتى يصبح.",
+        source: "سنن أبي داود، رقم ٥٠٨٨؛ وجامع الترمذي، رقم ٣٣٨٨."
+      },
+      {
+        id: "afiyah",
+        title: "سؤال العفو والعافية",
+        repeat: 1,
+        text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي، وَعَنْ يَمِينِي وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي.",
+        virtue: "دعاء جامع بالعفو والعافية والحفظ، وكان النبي ﷺ يقوله صباحًا ومساءً.",
+        source: "سنن أبي داود، رقم ٥٠٧٤."
+      },
+      {
+        id: "fatr",
+        title: "دعاء فاطر السماوات والأرض",
+        repeat: 1,
+        text: "اللَّهُمَّ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَشَرِّ الشَّيْطَانِ وَشِرْكِهِ.",
+        virtue: "تعوّذ بالله من شر النفس والشيطان، وأرشد النبي ﷺ أبا بكر أن يقول هذا الدعاء صباحًا ومساءً.",
+        source: "سنن أبي داود، رقم ٥٠٦٧؛ وجامع الترمذي، رقم ٣٣٩٢."
+      },
+      {
+        id: "kalimatillah",
+        title: "الاستعاذة بكلمات الله التامات",
+        repeat: 3,
+        text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.",
+        virtue: "من قالها ثلاثًا حين يمسي لم تضره حُمَة تلك الليلة.",
+        source: "صحيح مسلم، رقم ٢٧٠٩."
+      },
+      ...COMMON_ADHKAR
+    ]
+  };
+
   /* ============ الاتصال بالـ API (Aladhan) ============ */
   const cache = {};
   async function getData(url) {
@@ -221,6 +454,165 @@
     });
   });
 
+  /* ============ أذكار الصباح والمساء ============ */
+  let adhkarPeriod = "";
+  let adhkarDate = "";
+  const adhkarProgress = { morning: {}, evening: {} };
+
+  function getAdhkarDate() {
+    const today = new Date();
+    return `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+  }
+
+  function setAdhkarStatus(message) {
+    const status = $("adhkarStatus");
+    status.textContent = message;
+    status.hidden = !message;
+  }
+
+  function readAdhkarProgress(period) {
+    try {
+      const saved = JSON.parse(localStorage.getItem(`egAdhkar:${adhkarDate}:${period}`) || "{}");
+      const progress = {};
+      ADHKAR[period].forEach((item) => {
+        const count = saved[item.id];
+        if (Number.isInteger(count) && count >= 0) {
+          progress[item.id] = Math.min(count, item.repeat);
+        }
+      });
+      return progress;
+    } catch (error) {
+      setAdhkarStatus("تعذرت قراءة التقدّم المحفوظ على هذا الجهاز.");
+      return {};
+    }
+  }
+
+  function saveAdhkarProgress() {
+    try {
+      localStorage.setItem(
+        `egAdhkar:${adhkarDate}:${adhkarPeriod}`,
+        JSON.stringify(adhkarProgress[adhkarPeriod])
+      );
+      setAdhkarStatus("");
+    } catch (error) {
+      setAdhkarStatus("تعذر حفظ التقدّم على هذا الجهاز؛ سيظل ظاهرًا حتى إغلاق الصفحة.");
+    }
+  }
+
+  function refreshAdhkarDate() {
+    const today = getAdhkarDate();
+    if (today === adhkarDate) return;
+    adhkarDate = today;
+    adhkarProgress.morning = readAdhkarProgress("morning");
+    adhkarProgress.evening = readAdhkarProgress("evening");
+  }
+
+  function renderAdhkar() {
+    refreshAdhkarDate();
+    $("adhkarContent").hidden = !adhkarPeriod;
+    $("adhkarPrompt").hidden = Boolean(adhkarPeriod);
+    if (!adhkarPeriod) {
+      document.querySelectorAll(".adhkar-period").forEach((button) => {
+        button.classList.remove("active");
+        button.setAttribute("aria-pressed", "false");
+      });
+      return;
+    }
+
+    const entries = ADHKAR[adhkarPeriod];
+    const progress = adhkarProgress[adhkarPeriod];
+    const list = $("adhkarList");
+    list.replaceChildren();
+
+    document.querySelectorAll(".adhkar-period").forEach((button) => {
+      const selected = button.dataset.period === adhkarPeriod;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+
+    let completed = 0;
+    entries.forEach((item) => {
+      const count = progress[item.id] || 0;
+      if (count >= item.repeat) completed++;
+
+      const card = document.createElement("article");
+      card.className = "adhkar-card";
+
+      const title = document.createElement("h3");
+      title.className = "adhkar-title";
+      title.textContent = item.title;
+
+      const text = document.createElement("p");
+      text.className = "adhkar-text";
+      text.textContent = adhkarPeriod === "evening" && item.eveningText ? item.eveningText : item.text;
+
+      if (item.repeatNote) {
+        const repeatNote = document.createElement("p");
+        repeatNote.className = "adhkar-repeat-note";
+        repeatNote.textContent = item.repeatNote;
+        card.append(title, text, repeatNote);
+      } else {
+        card.append(title, text);
+      }
+
+      const virtue = document.createElement("p");
+      virtue.className = "adhkar-virtue";
+      const virtueLabel = document.createElement("strong");
+      virtueLabel.textContent = "الفضل: ";
+      virtue.append(virtueLabel, document.createTextNode(item.virtue));
+
+      const source = document.createElement("p");
+      source.className = "adhkar-source";
+      const sourceLabel = document.createElement("strong");
+      sourceLabel.textContent = "الحديث: ";
+      source.append(sourceLabel, document.createTextNode(item.source));
+
+      const controls = document.createElement("div");
+      controls.className = "adhkar-controls";
+      const countLabel = document.createElement("span");
+      countLabel.className = "adhkar-count";
+      countLabel.textContent = `التكرار: ${num(count)} / ${num(item.repeat)}`;
+
+      const countButton = document.createElement("button");
+      countButton.className = "adhkar-count-button";
+      countButton.type = "button";
+      countButton.textContent = count >= item.repeat ? "اكتمل الذكر" : "سجّلت مرة";
+      countButton.disabled = count >= item.repeat;
+      countButton.setAttribute("aria-label", `تسجيل تكرار الذكر: ${num(count + 1)} من ${num(item.repeat)}`);
+      countButton.addEventListener("click", () => {
+        refreshAdhkarDate();
+        const currentProgress = adhkarProgress[adhkarPeriod];
+        if ((currentProgress[item.id] || 0) >= item.repeat) return;
+        currentProgress[item.id] = (currentProgress[item.id] || 0) + 1;
+        saveAdhkarProgress();
+        renderAdhkar();
+      });
+      controls.append(countLabel, countButton);
+
+      card.append(virtue, source, controls);
+      list.append(card);
+    });
+
+    $("adhkarProgress").textContent =
+      `أتممت ${num(completed)} من ${num(entries.length)} أذكار هذه الفترة`;
+  }
+
+  document.querySelectorAll(".adhkar-period").forEach((button) => {
+    button.addEventListener("click", () => {
+      refreshAdhkarDate();
+      adhkarPeriod = button.dataset.period;
+      adhkarProgress[adhkarPeriod] = readAdhkarProgress(adhkarPeriod);
+      renderAdhkar();
+    });
+  });
+
+  $("adhkarReset").addEventListener("click", () => {
+    refreshAdhkarDate();
+    adhkarProgress[adhkarPeriod] = {};
+    saveAdhkarProgress();
+    renderAdhkar();
+  });
+
   /* ============ مواعيد الصلاة اليومية ============ */
   const PRAYERS = [
     { key: "Fajr", name: "الفجر" },
@@ -309,6 +701,7 @@
       lastDay = d;
       $("todayText").textContent = fmtLongDate(new Date());
       renderAll();
+      renderAdhkar();
     }
   }, 30000);
 
@@ -435,6 +828,7 @@
     $("oRetry").addEventListener("click", renderOther);
     $("locateBtn").addEventListener("click", locateUser);
 
+    renderAdhkar();
     renderAll();
     autoLocateWhenAvailable();
   }

@@ -67,6 +67,24 @@
         <ul class="times" id="dList"></ul>
         <p class="note" id="dPlace"></p>
       </div>
+
+      <section class="adhkar-section" aria-labelledby="adhkarHeading">
+        <div class="adhkar-heading">
+          <h2 id="adhkarHeading">أذكار الصباح والمساء</h2>
+          <p>اختر الفترة لعرض الأذكار الواردة من القرآن والسنة وأعداد تكرارها.</p>
+        </div>
+        <div class="adhkar-periods" role="group" aria-label="اختيار فترة الأذكار">
+          <button class="adhkar-period" type="button" data-period="morning" aria-pressed="false">أذكار الصباح</button>
+          <button class="adhkar-period" type="button" data-period="evening" aria-pressed="false">أذكار المساء</button>
+        </div>
+        <p class="adhkar-prompt" id="adhkarPrompt">الأذكار لا تظهر إلا بعد اختيار الصباح أو المساء.</p>
+        <div id="adhkarContent" hidden>
+          <p class="adhkar-progress" id="adhkarProgress" aria-live="polite"></p>
+          <p class="adhkar-status" id="adhkarStatus" role="status" aria-live="polite" hidden></p>
+          <div class="adhkar-list" id="adhkarList"></div>
+          <button class="adhkar-reset" id="adhkarReset" type="button">إعادة التقدّم لهذه الفترة</button>
+        </div>
+      </section>
     </section>
 
     <!-- ========== صلوات أخرى ========== -->
