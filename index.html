@@ -25,6 +25,8 @@
   <header class="header">
     <h1>مواعيد الصلاة في مصر</h1>
     <p class="today" id="todayText"></p>
+    <button class="location-button" id="locateBtn" type="button">تحديد موقعي تلقائيًا</button>
+    <p class="location-status" id="locationStatus" role="status" aria-live="polite" hidden></p>
   </header>
 
   <main class="container">
@@ -111,7 +113,8 @@
 
   <footer class="footer">
     <p class="rights">جميع الحقوق محفوظة © <span id="year">2026</span> - مواعيد الصلاة في مصر</p>
-    <p dir="ltr">Made by Eng. Anas Yasser</p>
+    <p dir="ltr">Developed by Eng. Anas Yasser</p>
+    <p class="data-credit" dir="ltr">City data © <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a></p>
     <div class="social-links">
       <a class="social-link instagram-link" href="https://www.instagram.com/2nas._.yasser/" target="_blank" rel="noopener noreferrer" aria-label="تابعني على إنستجرام: 2nas._.yasser">
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
@@ -119,13 +122,13 @@
           <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
           <circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle>
         </svg>
-        <span dir="ltr">@2nas._.yasser</span>
+        <span dir="ltr">Instagram</span>
       </a>
       <a class="social-link whatsapp-link" href="https://wa.me/201080514381" target="_blank" rel="noopener noreferrer" aria-label="تواصل معي على واتساب">
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12.04 2a9.9 9.9 0 0 0-8.48 15.02L2.2 22l5.1-1.34A9.96 9.96 0 1 0 12.04 2Zm0 18.1a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.02.8.81-2.95-.2-.3a8.12 8.12 0 1 1 6.84 3.76Zm4.46-6.08c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.42-1.34-1.66-.14-.24-.02-.37.1-.49.1-.1.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.46-.4-.4-.54-.4h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.26 1.04.42 1.4.54.58.18 1.1.16 1.52.1.46-.06 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"></path>
         </svg>
-        <span>واتساب</span>
+        <span>Whatsapp</span>
       </a>
     </div>
   </footer>

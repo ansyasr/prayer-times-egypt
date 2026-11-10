@@ -42,11 +42,14 @@
 
   /* ============ اختيار المحافظة والمدينة ============ */
   const selection = { g: "", c: "" };
+  let hasSavedSelection = false;
+  let selectionRevision = 0;
   try {
     const saved = JSON.parse(localStorage.getItem("egPrayerSel") || "null");
     if (saved && EGYPT[saved.g] && EGYPT[saved.g].c[saved.c]) {
       selection.g = String(saved.g);
       selection.c = String(saved.c);
+      hasSavedSelection = true;
     }
   } catch (e) { /* تجاهل */ }
 
@@ -79,10 +82,16 @@
     if (selection.g === "" || selection.c === "") return null;
     const gov = EGYPT[selection.g];
     const city = gov.c[selection.c];
-    return { gov: gov.g, name: city[0], lat: city[1], lng: city[2] };
+    return {
+      gov: gov.g,
+      name: city[0],
+      lat: city[1],
+      lng: city[2]
+    };
   }
 
   function onGovChange(e) {
+    selectionRevision++;
     selection.g = e.target.value;
     selection.c = "";
     saveSelection();
@@ -90,10 +99,112 @@
     renderAll();
   }
   function onCityChange(e) {
+    selectionRevision++;
     selection.c = e.target.value;
     saveSelection();
     applySelectionToForms();
     renderAll();
+  }
+
+  function setLocationStatus(message) {
+    const status = $("locationStatus");
+    status.textContent = message;
+    status.hidden = !message;
+  }
+
+  function nearestPlace(lat, lng) {
+    const radians = (degrees) => degrees * Math.PI / 180;
+    let nearest = null;
+    let shortest = Infinity;
+
+    EGYPT.forEach((gov, g) => {
+      gov.c.forEach((city, c) => {
+        const latDistance = radians(city[1] - lat);
+        const lngDistance = radians(city[2] - lng);
+        const a = Math.sin(latDistance / 2) ** 2 +
+          Math.cos(radians(lat)) * Math.cos(radians(city[1])) * Math.sin(lngDistance / 2) ** 2;
+        const distance = 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        if (distance < shortest) {
+          shortest = distance;
+          nearest = { g, c, distance };
+        }
+      });
+    });
+
+    return nearest;
+  }
+
+  function locateUser() {
+    if (!navigator.geolocation) {
+      setLocationStatus("تحديد الموقع غير متاح في هذا المتصفح. اختر المحافظة والمدينة يدويًا.");
+      return;
+    }
+
+    const revision = selectionRevision;
+    const button = $("locateBtn");
+    button.disabled = true;
+    setLocationStatus("جاري تحديد موقعك...");
+
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        button.disabled = false;
+        if (revision !== selectionRevision) {
+          setLocationStatus("تم الاحتفاظ بالمحافظة والمدينة اللتين اخترتهما يدويًا.");
+          return;
+        }
+
+        const { latitude, longitude } = coords;
+        if (latitude < 21.5 || latitude > 32.5 || longitude < 24.5 || longitude > 37.5) {
+          setLocationStatus("الموقع خارج مصر. اختر المحافظة والمدينة يدويًا.");
+          return;
+        }
+
+        const nearest = nearestPlace(latitude, longitude);
+        if (!nearest || nearest.distance > 100) {
+          setLocationStatus("تعذر تحديد أقرب مدينة لموقعك. اختر المحافظة والمدينة يدويًا.");
+          return;
+        }
+
+        selection.g = String(nearest.g);
+        selection.c = String(nearest.c);
+        saveSelection();
+        applySelectionToForms();
+        renderAll();
+
+        const place = currentPlace();
+        setLocationStatus(`تم تحديد موقعك بالقرب من ${place.name}، محافظة ${place.gov}.`);
+      },
+      (error) => {
+        button.disabled = false;
+        if (revision !== selectionRevision) {
+          setLocationStatus("تم الاحتفاظ بالمحافظة والمدينة اللتين اخترتهما يدويًا.");
+          return;
+        }
+        const message = error.code === error.PERMISSION_DENIED
+          ? "لم يتم السماح بالوصول إلى الموقع. اختر المحافظة والمدينة يدويًا أو اسمح بالموقع."
+          : error.code === error.TIMEOUT
+            ? "استغرق تحديد الموقع وقتًا طويلًا. اختر المحافظة والمدينة يدويًا أو حاول مرة أخرى."
+            : "تعذر تحديد موقعك. اختر المحافظة والمدينة يدويًا أو حاول مرة أخرى.";
+        setLocationStatus(message);
+      },
+      { enableHighAccuracy: false, timeout: 12000, maximumAge: 600000 }
+    );
+  }
+
+  function autoLocateWhenAvailable() {
+    if (!navigator.geolocation) return;
+    if (!hasSavedSelection) {
+      locateUser();
+      return;
+    }
+    if (!navigator.permissions || !navigator.permissions.query) return;
+
+    const revision = selectionRevision;
+    navigator.permissions.query({ name: "geolocation" }).then((permission) => {
+      if (permission.state === "granted" && revision === selectionRevision) locateUser();
+    }).catch(() => {
+      setLocationStatus("يمكنك تحديد موقعك تلقائيًا من الزر، أو اختيار المحافظة والمدينة يدويًا.");
+    });
   }
 
   /* ============ التبويبات ============ */
@@ -322,8 +433,10 @@
     $("oType").addEventListener("change", renderOther);
     $("dRetry").addEventListener("click", renderDaily);
     $("oRetry").addEventListener("click", renderOther);
+    $("locateBtn").addEventListener("click", locateUser);
 
     renderAll();
+    autoLocateWhenAvailable();
   }
 
   init();

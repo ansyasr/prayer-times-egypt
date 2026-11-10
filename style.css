@@ -83,6 +83,28 @@ body {
   color: #1f5f93;
   min-height: 1.4em;
 }
+.location-button {
+  margin-top: 10px;
+  padding: 7px 16px;
+  border: 1px solid rgba(255, 255, 255, .75);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .72);
+  color: var(--sky-dark);
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.location-button:hover:not(:disabled) { background: #fff; transform: translateY(-1px); }
+.location-button:disabled { cursor: wait; opacity: .7; }
+.location-button:focus-visible { outline: 3px solid var(--sky-dark); outline-offset: 3px; }
+.location-status {
+  margin: 6px 12px 0;
+  color: #1f5f93;
+  font-size: .85rem;
+  font-weight: 600;
+}
 
 /* ---------- الحاوية ---------- */
 .container {
@@ -269,6 +291,8 @@ select:disabled { opacity: .55; }
   color: var(--text);
 }
 .footer .rights { margin-bottom: 2px; }
+.data-credit { font-size: .75rem; color: var(--muted); }
+.data-credit a { color: inherit; }
 
 .social-links {
   display: flex;
