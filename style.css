@@ -399,11 +399,25 @@ select:disabled { opacity: .55; }
   background: rgba(255, 255, 255, .76);
   font-size: .9rem;
   font-weight: 600;
-  color: var(--text);
+  color: rgb(29, 27, 49);
 }
 .footer .rights { margin-bottom: 2px; }
-.data-credit { font-size: .75rem; color: var(--muted); }
+.data-credit { font-size: .75rem; color: rgb(29, 27, 49); }
 .data-credit a { color: inherit; }
+.developer-credit { color: rgb(29, 27, 49); }
+.developer-name {
+  color: #1d1b31;
+  background: linear-gradient(100deg, #1d1b31 20%, #8a6d36 45%, #1d1b31 70%);
+  background-size: 220% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: name-shimmer 5s ease-in-out infinite;
+}
+@keyframes name-shimmer {
+  0%, 65% { background-position: 100% center; }
+  100% { background-position: 0 center; }
+}
 
 .social-links {
   display: flex;
@@ -420,7 +434,7 @@ select:disabled { opacity: .55; }
   border: 1px solid rgba(43, 134, 200, .18);
   border-radius: 999px;
   background: var(--sky-light);
-  color: var(--sky-dark);
+  color: rgb(29, 27, 49);
   font-size: .85rem;
   font-weight: 700;
   text-decoration: none;
@@ -428,8 +442,13 @@ select:disabled { opacity: .55; }
 }
 .social-link:hover { background: #d7ecfb; border-color: rgba(43, 134, 200, .4); transform: translateY(-1px); }
 .social-link svg { width: 20px; height: 20px; flex: 0 0 auto; }
+.instagram-link svg { color: #d62976; }
 .social-link:focus-visible { outline: 3px solid var(--sky-dark); outline-offset: 3px; }
 .whatsapp-link svg { color: #208b65; }
+
+@media (prefers-reduced-motion: reduce) {
+  .developer-name { animation: none; }
+}
 
 /* ---------- الشاشات الكبيرة ---------- */
 @media (min-width: 700px) {

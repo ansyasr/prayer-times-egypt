@@ -57,7 +57,7 @@
     <!-- التبويبات -->
     <nav class="tabs" role="tablist">
       <button class="tab active" role="tab" id="tabBtnDaily" data-tab="daily" aria-selected="true">مواعيد الصلاة</button>
-      <button class="tab" role="tab" id="tabBtnOther" data-tab="other" aria-selected="false">صلوات أخرى</button>
+      <button class="tab" role="tab" id="tabBtnOther" data-tab="other" aria-selected="false">باقي الصلوات</button>
     </nav>
 
     <!-- ========== مواعيد الصلاة اليومية ========== -->
@@ -154,14 +154,23 @@
 
   <footer class="footer">
     <p class="rights">جميع الحقوق محفوظة © <span id="year">2026</span> - مواعيد الصلاة في مصر</p>
-    <p dir="ltr">Developed by Eng. Anas Yasser</p>
+    <p class="developer-credit" dir="ltr">Developed by <span class="developer-name">Eng. Anas Yasser</span></p>
     <p class="data-credit" dir="ltr">City data © <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a></p>
     <div class="social-links">
-      <a class="social-link instagram-link" href="https://www.instagram.com/2nas._.yasser/" target="_blank" rel="noopener noreferrer" aria-label="تابعني على إنستجرام: 2nas._.yasser">
+      <a class="social-link instagram-link" href="https://www.instagram.com/2nas_.yasser/" target="_blank" rel="noopener noreferrer" aria-label="تابعني على إنستجرام">
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-          <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"></rect>
-          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
-          <circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle>
+          <defs>
+            <linearGradient id="instagramGradient" x1="3" y1="21" x2="21" y2="3" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#feda75"></stop>
+              <stop offset=".35" stop-color="#fa7e1e"></stop>
+              <stop offset=".62" stop-color="#d62976"></stop>
+              <stop offset=".82" stop-color="#962fbf"></stop>
+              <stop offset="1" stop-color="#4f5bd5"></stop>
+            </linearGradient>
+          </defs>
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="url(#instagramGradient)" stroke-width="2"></rect>
+          <circle cx="12" cy="12" r="4" stroke="url(#instagramGradient)" stroke-width="2"></circle>
+          <circle cx="17.5" cy="6.5" r="1" fill="url(#instagramGradient)"></circle>
         </svg>
         <span dir="ltr">Instagram</span>
       </a>
