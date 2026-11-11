@@ -6,6 +6,183 @@
   <meta name="theme-color" content="#8ec9f5">
   <meta name="description" content="مواقيت ومواعيد الصلاة اليوم في مصر حسب المحافظة والمدينة: الفجر والظهر والعصر والمغرب والعشاء، مع أوقات قيام الليل وأذكار الصباح والمساء.">
   <meta name="robots" content="index, follow">
+  <meta name="google-site-verification" content="NJ9MxRTSy5qAov61N3dLYY6BcZCd-fdaAMJXEGA1mLI" />
+  <link rel="canonical" href="https://mawaqit-alsalah-egypt.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_EG">
+  <meta property="og:title" content="مواقيت الصلاة اليوم في مصر">
+  <meta property="og:description" content="اعرف مواعيد الصلاة اليوم في محافظات ومدن مصر، واختر مدينتك لعرض المواقيت.">
+  <meta property="og:url" content="https://mawaqit-alsalah-egypt.vercel.app/">
+  <meta name="twitter:card" content="summary">
+  <title>مواقيت الصلاة اليوم في مصر | مواعيد الصلاة حسب مدينتك</title>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "مواقيت الصلاة في مصر",
+      "url": "https://mawaqit-alsalah-egypt.vercel.app/",
+      "description": "مواقيت ومواعيد الصلاة اليوم في محافظات ومدن مصر، مع أوقات قيام الليل وأذكار الصباح والمساء.",
+      "inLanguage": "ar-EG",
+      "areaServed": { "@type": "Country", "name": "مصر" }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- خلفية السماء والغيوم -->
+  <div class="sky" aria-hidden="true">
+    <span class="cloud c1"></span>
+    <span class="cloud c2"></span>
+    <span class="cloud c3"></span>
+    <span class="cloud c4"></span>
+    <span class="cloud c5"></span>
+  </div>
+
+  <header class="header">
+    <h1>مواعيد الصلاة في مصر</h1>
+    <p class="today" id="todayText"></p>
+    <button class="location-button" id="locateBtn" type="button">تحديد موقعي تلقائيًا</button>
+    <p class="location-status" id="locationStatus" role="status" aria-live="polite" hidden></p>
+  </header>
+
+  <main class="container">
+
+    <!-- التبويبات -->
+    <nav class="tabs" role="tablist">
+      <button class="tab active" role="tab" id="tabBtnDaily" data-tab="daily" aria-selected="true">مواعيد الصلاة</button>
+      <button class="tab" role="tab" id="tabBtnOther" data-tab="other" aria-selected="false">صلوات أخرى</button>
+    </nav>
+
+    <!-- ========== مواعيد الصلاة اليومية ========== -->
+    <section class="panel" id="tab-daily">
+      <div class="card">
+        <label class="field">
+          <span>المحافظة</span>
+          <select id="dGov"></select>
+        </label>
+        <label class="field">
+          <span>المدينة</span>
+          <select id="dCity" disabled></select>
+        </label>
+      </div>
+
+      <p class="hint" id="dHint">اختر المحافظة والمدينة لمعرفة مواقيت الصلاة اليوم في مصر، مثل الفجر والظهر والعصر والمغرب والعشاء.</p>
+      <p class="status" id="dLoading" hidden>جاري تحميل المواعيد...</p>
+      <p class="status error" id="dError" hidden>
+        تعذر تحميل المواعيد. تأكد من الاتصال بالإنترنت.
+        <button class="retry" id="dRetry" type="button">إعادة المحاولة</button>
+      </p>
+
+      <div id="dResult" hidden>
+        <div class="next-card">
+          <div class="next-label">الصلاة القادمة</div>
+          <div class="next-name" id="nextName">—</div>
+          <div class="next-time" id="nextTime">—</div>
+          <div class="next-count">المتبقي: <span id="nextCount">—</span></div>
+        </div>
+        <ul class="times" id="dList"></ul>
+        <p class="note" id="dPlace"></p>
+      </div>
+
+      <section class="adhkar-section" aria-labelledby="adhkarHeading">
+        <div class="adhkar-heading">
+          <h2 id="adhkarHeading">أذكار الصباح والمساء</h2>
+          <p>اختر الفترة لعرض الأذكار الواردة من القرآن والسنة وأعداد تكرارها.</p>
+        </div>
+        <div class="adhkar-periods" role="group" aria-label="اختيار فترة الأذكار">
+          <button class="adhkar-period" type="button" data-period="morning" aria-pressed="false">أذكار الصباح</button>
+          <button class="adhkar-period" type="button" data-period="evening" aria-pressed="false">أذكار المساء</button>
+        </div>
+        <p class="adhkar-prompt" id="adhkarPrompt">الأذكار لا تظهر إلا بعد اختيار الصباح أو المساء.</p>
+        <div id="adhkarContent" hidden>
+          <p class="adhkar-progress" id="adhkarProgress" aria-live="polite"></p>
+          <p class="adhkar-status" id="adhkarStatus" role="status" aria-live="polite" hidden></p>
+          <div class="adhkar-list" id="adhkarList"></div>
+          <button class="adhkar-reset" id="adhkarReset" type="button">إعادة التقدّم لهذه الفترة</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- ========== صلوات أخرى ========== -->
+    <section class="panel" id="tab-other" hidden>
+      <div class="card">
+        <label class="field">
+          <span>المحافظة</span>
+          <select id="oGov"></select>
+        </label>
+        <label class="field">
+          <span>المدينة</span>
+          <select id="oCity" disabled></select>
+        </label>
+        <label class="field">
+          <span>الصلاة</span>
+          <select id="oType">
+            <option value="qiyam">قيام الليل</option>
+            <option value="jumua">صلاة الجمعة</option>
+            <option value="fitr">صلاة عيد الفطر</option>
+            <option value="adha">صلاة عيد الأضحى</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="hint" id="oHint">اختر المحافظة والمدينة ونوع الصلاة لعرض الموعد.</p>
+      <p class="status" id="oLoading" hidden>جاري تحميل الموعد...</p>
+      <p class="status error" id="oError" hidden>
+        تعذر تحميل الموعد. تأكد من الاتصال بالإنترنت.
+        <button class="retry" id="oRetry" type="button">إعادة المحاولة</button>
+      </p>
+
+      <div id="oResult" hidden>
+        <div class="other-card">
+          <h2 id="oTitle"></h2>
+          <div class="big-time" id="oBig"></div>
+          <div class="big-sub" id="oSub"></div>
+          <ul class="details" id="oDetails"></ul>
+        </div>
+        <p class="note" id="oNote"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p class="rights">جميع الحقوق محفوظة © <span id="year">2026</span> - مواعيد الصلاة في مصر</p>
+    <p dir="ltr">Developed by Eng. Anas Yasser</p>
+    <p class="data-credit" dir="ltr">City data © <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a></p>
+    <div class="social-links">
+      <a class="social-link instagram-link" href="https://www.instagram.com/2nas._.yasser/" target="_blank" rel="noopener noreferrer" aria-label="تابعني على إنستجرام: 2nas._.yasser">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"></rect>
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle>
+        </svg>
+        <span dir="ltr">Instagram</span>
+      </a>
+      <a class="social-link whatsapp-link" href="https://wa.me/201080514381" target="_blank" rel="noopener noreferrer" aria-label="تواصل معي على واتساب">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.04 2a9.9 9.9 0 0 0-8.48 15.02L2.2 22l5.1-1.34A9.96 9.96 0 1 0 12.04 2Zm0 18.1a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.02.8.81-2.95-.2-.3a8.12 8.12 0 1 1 6.84 3.76Zm4.46-6.08c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.42-1.34-1.66-.14-.24-.02-.37.1-.49.1-.1.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.46-.4-.4-.54-.4h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.26 1.04.42 1.4.54.58.18 1.1.16 1.52.1.46-.06 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"></path>
+        </svg>
+        <span>Whatsapp</span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8ec9f5">
+  <meta name="description" content="مواقيت ومواعيد الصلاة اليوم في مصر حسب المحافظة والمدينة: الفجر والظهر والعصر والمغرب والعشاء، مع أوقات قيام الليل وأذكار الصباح والمساء.">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://mawaqit-alsalah-egypt.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ar_EG">
