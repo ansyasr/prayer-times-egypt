@@ -22,6 +22,53 @@
   const sameDay = (a, b) =>
     a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
   const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const DAY_START_HOUR = 6;
+  const NIGHT_START_HOUR = 18;
+
+  function isDaytime(date = new Date()) {
+    return date.getHours() >= DAY_START_HOUR && date.getHours() < NIGHT_START_HOUR;
+  }
+
+  function setTheme(isDay) {
+    const isNight = !isDay;
+    document.body.classList.toggle("dark-mode", isNight);
+    $("themeToggle").setAttribute("aria-checked", String(isNight));
+    $("themeToggle").setAttribute("aria-label", `الوضع ${isNight ? "الليلي" : "النهاري"}`);
+    $("themeToggle").querySelector(".theme-switch-label").textContent = isNight ? "ليلي" : "نهاري";
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", isNight ? "#020713" : "#8ec9f5");
+  }
+
+  function getNextThemeBoundary(date = new Date()) {
+    const next = new Date(date);
+    if (date.getHours() < DAY_START_HOUR) {
+      next.setHours(DAY_START_HOUR, 0, 0, 0);
+    } else if (date.getHours() < NIGHT_START_HOUR) {
+      next.setHours(NIGHT_START_HOUR, 0, 0, 0);
+    } else {
+      next.setDate(next.getDate() + 1);
+      next.setHours(DAY_START_HOUR, 0, 0, 0);
+    }
+    return next;
+  }
+
+  function initTheme() {
+    const button = $("themeToggle");
+    let manualThemeUntil = null;
+    setTheme(isDaytime());
+
+    button.addEventListener("click", () => {
+      const currentIsDay = !document.body.classList.contains("dark-mode");
+      setTheme(!currentIsDay);
+      manualThemeUntil = getNextThemeBoundary();
+    });
+
+    setInterval(() => {
+      const now = new Date();
+      if (manualThemeUntil && now < manualThemeUntil) return;
+      manualThemeUntil = null;
+      setTheme(isDaytime(now));
+    }, 60_000);
+  }
 
   const COMMON_ADHKAR = [
     {
@@ -812,6 +859,7 @@
   }
 
   function init() {
+    initTheme();
     $("todayText").textContent = fmtLongDate(new Date());
     $("year").textContent = num(new Date().getFullYear());
 

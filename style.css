@@ -22,6 +22,19 @@ body {
   background: #e8f4fd;
 }
 
+body,
+.sky,
+.card,
+.next-card,
+.other-card,
+.times,
+.tabs,
+.adhkar-periods,
+.footer,
+.theme-toggle {
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+
 /* ---------- خلفية السماء والغيوم ---------- */
 .sky {
   position: fixed;
@@ -30,6 +43,14 @@ body {
   overflow: hidden;
   direction: ltr;
   background: linear-gradient(180deg, #8ec9f5 0%, #bfe0fa 38%, #e8f4fd 72%, #ffffff 100%);
+}
+.sky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease;
 }
 
 .cloud {
@@ -67,9 +88,58 @@ body {
 
 /* ---------- الهيدر ---------- */
 .header {
+  position: relative;
   text-align: center;
   padding: 28px 16px 10px;
 }
+.theme-toggle {
+  position: absolute;
+  top: 12px;
+  right: max(16px, calc((100vw - 900px) / 2));
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 5px 12px 5px 7px;
+  border: 1px solid rgba(43, 134, 200, .22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .82);
+  color: #26334e;
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(27, 45, 77, .12);
+}
+.theme-switch-track {
+  position: relative;
+  display: flex;
+  direction: ltr;
+  align-items: center;
+  justify-content: space-between;
+  width: 52px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #d9e5f5;
+  color: #596b8c;
+  transition: background-color .3s ease;
+}
+.switch-icon { position: relative; z-index: 1; font-size: .9rem; line-height: 1; }
+.switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 5px rgba(15, 28, 52, .24);
+  transition: transform .25s ease;
+}
+body.dark-mode .switch-knob { transform: translateX(24px); }
+.theme-toggle:focus-visible { outline: 3px solid var(--sky-dark); outline-offset: 3px; }
 .header h1 {
   font-size: 1.9rem;
   font-weight: 800;
@@ -446,12 +516,148 @@ select:disabled { opacity: .55; }
 .social-link:focus-visible { outline: 3px solid var(--sky-dark); outline-offset: 3px; }
 .whatsapp-link svg { color: #208b65; }
 
+/* ---------- الوضع الليلي ---------- */
+body.dark-mode {
+  --sky: #687fc7;
+  --sky-dark: #bdcaff;
+  --sky-light: #24334e;
+  --text: #edf2ff;
+  --muted: #b1bfdc;
+  --shadow: 0 8px 26px rgba(0, 0, 0, .24);
+  color-scheme: dark;
+  background: #0b1425;
+}
+body.dark-mode .sky {
+  background: linear-gradient(180deg, #020713 0%, #080f20 56%, #101a2d 100%);
+}
+body.dark-mode .sky::after {
+  opacity: .88;
+  background-image:
+    radial-gradient(2px 2px at 5% 13%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 12% 38%, #e0e9ff 80%, transparent),
+    radial-gradient(2px 2px at 20% 20%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 29% 8%, #dce7ff 80%, transparent),
+    radial-gradient(2px 2px at 37% 32%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 44% 17%, #e0e9ff 80%, transparent),
+    radial-gradient(2px 2px at 53% 7%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 61% 29%, #dce7ff 80%, transparent),
+    radial-gradient(2px 2px at 69% 12%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 76% 21%, #dce7ff 80%, transparent),
+    radial-gradient(2px 2px at 85% 8%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 94% 28%, #dce7ff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 8% 57%, #dce7ff 80%, transparent),
+    radial-gradient(2px 2px at 25% 49%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 48% 42%, #e0e9ff 80%, transparent),
+    radial-gradient(2px 2px at 67% 51%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 89% 46%, #dce7ff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 17% 72%, #dce7ff 80%, transparent),
+    radial-gradient(2px 2px at 39% 68%, #fff 80%, transparent),
+    radial-gradient(1.5px 1.5px at 58% 76%, #e0e9ff 80%, transparent),
+    radial-gradient(2px 2px at 81% 69%, #fff 80%, transparent);
+}
+body.dark-mode .cloud { display: none; }
+body.dark-mode .header h1 { color: #f2f5ff; text-shadow: 0 2px 14px rgba(155, 177, 255, .35); }
+body.dark-mode .today,
+body.dark-mode .location-status,
+body.dark-mode .hint,
+body.dark-mode .status,
+body.dark-mode .note { color: #c3d0f0; }
+body.dark-mode .location-button {
+  background: rgba(27, 41, 66, .92);
+  border-color: rgba(146, 164, 203, .45);
+  color: #d4defc;
+}
+body.dark-mode .location-button:hover:not(:disabled) { background: #24334e; }
+body.dark-mode .tabs,
+body.dark-mode .card,
+body.dark-mode .other-card,
+body.dark-mode .times,
+body.dark-mode .adhkar-periods,
+body.dark-mode .adhkar-prompt { background: #152139; }
+body.dark-mode .tab,
+body.dark-mode .adhkar-period { color: #c4d0f4; }
+body.dark-mode .tab.active,
+body.dark-mode .adhkar-period.active,
+body.dark-mode .retry,
+body.dark-mode .adhkar-count-button { background: #687fc7; color: #fff; }
+body.dark-mode .field span,
+body.dark-mode .adhkar-heading h2,
+body.dark-mode .adhkar-title,
+body.dark-mode .adhkar-progress,
+body.dark-mode .adhkar-count,
+body.dark-mode .times .time { color: #bdcaff; }
+body.dark-mode select {
+  color: #edf2ff;
+  background-color: #202e49;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%23bdcaff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+}
+body.dark-mode .hint,
+body.dark-mode .status,
+body.dark-mode .adhkar-prompt { background: #152139; }
+body.dark-mode .status.error { color: #ffb4b4; }
+body.dark-mode .next-card { background: linear-gradient(135deg, #354875, #253557); }
+body.dark-mode .times li,
+body.dark-mode .details li { border-color: #293752; }
+body.dark-mode .times li.next { background: #243454; }
+body.dark-mode .times li.minor .name { color: #b1bfdc; }
+body.dark-mode .note { color: #c3d0f0; }
+body.dark-mode .adhkar-status { background: #3a3020; color: #ffe0a3; }
+body.dark-mode .adhkar-card { background: #101a2d; }
+body.dark-mode .adhkar-text { background: #202e49; color: #f0f3ff; }
+body.dark-mode .adhkar-virtue { color: #a9ddb4; }
+body.dark-mode .adhkar-source { color: #b1bfdc; }
+body.dark-mode .adhkar-repeat-note { color: #bdcaff; }
+body.dark-mode .adhkar-count-button:disabled { background: #44634d; }
+body.dark-mode .adhkar-reset { background: #24334e; color: #dce5ff; }
+body.dark-mode .other-card h2,
+body.dark-mode .big-time,
+body.dark-mode .details li span:last-child { color: #edf2ff; }
+body.dark-mode .details li span:first-child,
+body.dark-mode .big-sub { color: #b1bfdc; }
+body.dark-mode .footer { background: rgba(13, 22, 39, .94); color: #d8e2fa; }
+body.dark-mode .footer .rights,
+body.dark-mode .footer .developer-credit,
+body.dark-mode .footer .data-credit { color: #d8e2fa; }
+body.dark-mode .developer-name {
+  background-image: linear-gradient(100deg, #dce5ff 20%, #c9a96e 45%, #dce5ff 70%);
+  -webkit-text-fill-color: transparent;
+}
+body.dark-mode .social-link { background: #1b2942; color: #d9e3ff; border-color: #334361; }
+body.dark-mode .social-link:hover { background: #24334e; border-color: #526489; }
+body.dark-mode .theme-toggle { background: #152139; color: #e5ebff; border-color: #51658d; }
+body.dark-mode .theme-switch-track { background: #657dc6; color: #edf1ff; }
+body.dark-mode .theme-toggle:focus-visible { outline-color: #8da7ed; }
+
 @media (prefers-reduced-motion: reduce) {
   .developer-name { animation: none; }
+  body,
+  .sky,
+  .sky::after,
+  .card,
+  .next-card,
+  .other-card,
+  .times,
+  .tabs,
+  .adhkar-periods,
+  .footer,
+  .theme-toggle,
+  .theme-switch-track,
+  .switch-knob { transition: none; }
 }
 
 /* ---------- الشاشات الكبيرة ---------- */
 @media (min-width: 700px) {
   .header h1 { font-size: 2.4rem; }
   .container { max-width: 560px; }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle { top: 8px; right: 12px; min-height: 38px; font-size: .75rem; }
+  .theme-switch-track { width: 48px; height: 26px; }
+  .switch-knob { width: 20px; height: 20px; }
+  body.dark-mode .switch-knob { transform: translateX(22px); }
+}
+
+@media (max-width: 600px) {
+  .header { padding-top: 64px; }
 }
